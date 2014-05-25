@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import kdo.de.meserreurs.MonException;
 import kdo.de.utilitaires.JBossContext;
+import model.Client;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
+
+import traitements.GestionCerisaie;
 
 
 
@@ -145,47 +148,6 @@ public class HomeController extends MultiActionController{
 		}
 		return new ModelAndView(destinationPage);
 	}
-	
-
-	
-	@RequestMapping(value = "AjouterClient.htm")
-	public ModelAndView ajouterClient(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String destinationPage = "";
-		Client unclient;
-		try {
-			unclient = new Client();
-			request.setAttribute("client", unclient);
-			destinationPage = "AjouterClient";
-		} catch (Exception e) {
-			request.setAttribute("MesErreurs", e.getMessage());
-
-			destinationPage = "Erreur";
-		}
-		return new ModelAndView(destinationPage);
-
-	}
-	
-	@RequestMapping(value = "supprimerClient.htm")
-	public ModelAndView supprimerClient(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		String destinationPage = "index";
-		// On appelle notre EJB
-		Context ctxt = JBossContext.getInitialContext();
-		GestionCerisaie unclientRemote = (GestionCerisaie) ctxt.lookup("BeanCommercial");
-		try {
-            String id = request.getParameter("id");
-			if (! id.equals("")){
-				unclientRemote.supprimerClient(id);
-			}
-			destinationPage = "index";
-		} catch (MesException e) {
-			destinationPage = "Erreur";
-			request.setAttribute("MesErreurs", e.getType() + " : " + e.getMessage());
-
-		}
-		return new ModelAndView(destinationPage);
-	}
-	
 	
 	@RequestMapping(value = "sauverClient.htm")
 	public ModelAndView sauverClient(HttpServletRequest request, HttpServletResponse response) throws Exception {
