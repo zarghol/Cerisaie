@@ -10,3 +10,17 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+*.prefs
+
+*.component
+
+.settings/org.eclipse.wst.common.project.facet.core.xml
+
+.springBeans
+
+pom.xml
+
+src/main/resources/log4j.xml
+
+.classpath
