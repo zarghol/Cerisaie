@@ -77,7 +77,7 @@ ${alert}
 						<th>Nombre de personne</th>
 						<th colspan="3"></th>
 					</tr>
-					<c:forEach items="${mesClients}" var="item">
+					<c:forEach items="${MesClients}" var="item">
 						<tr>
 							<td>${item.noClient}</td>
 							<td>${item.nomCl}</td>
