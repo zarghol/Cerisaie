@@ -32,7 +32,7 @@ import traitements.GestionCerisaie;
  *	
  */
 public class HomeController extends MultiActionController {
-	
+
 	/**
 	 * Affiche la page d'accueil.
 	 * 
@@ -160,13 +160,14 @@ public class HomeController extends MultiActionController {
 			HttpServletResponse response) throws Exception {
 		String destinationPage = "";
 		List<Activite> mesActiSportSej = null;
-
-		// On appelle notre EJB
+		Sejour unsejour = null;
 		Context ctxt = JBossContext.getInitialContext();
 		GestionCerisaie uneCerisaie = (GestionCerisaie) ctxt
 				.lookup("BeanCerisaie");
 		try {
-			mesActiSportSej = uneCerisaie.listerActivitesSportives();
+			request.setAttribute("sejour", unsejour);
+
+			mesActiSportSej = unsejour.getActivites();
 			request.setAttribute("MesActiSportSej", mesActiSportSej);
 			destinationPage = "ActivitesSportivesSejour";
 		} catch (MonException e) {
@@ -207,7 +208,7 @@ public class HomeController extends MultiActionController {
 	}
 
 	/**
-	 * Affiche la page de
+	 * Supprime
 	 * 
 	 * @param request
 	 *            Message d'entr�e
@@ -220,15 +221,17 @@ public class HomeController extends MultiActionController {
 	public ModelAndView supprimerClient(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 
-		String destinationPage = "index";
+		String destinationPage;
 		// On appelle notre EJB
 		Context ctxt = JBossContext.getInitialContext();
 		GestionCerisaie unclientRemote = (GestionCerisaie) ctxt
 				.lookup("BeanCommercial");
 		try {
 			String id = request.getParameter("id");
+			Client unclient = null;
+			unclient = unclientRemote.rechercherClient(id);
 			if (!id.equals("")) {
-				unclientRemote.supprimerClient(id);
+				unclientRemote.supprimer(unclient);
 			}
 			destinationPage = "index";
 		} catch (MonException e) {
@@ -241,9 +244,12 @@ public class HomeController extends MultiActionController {
 	}
 
 	/**
-	 *  Permet de modifier un client
+	 * Permet de modifier un client
+	 * 
 	 * @param request
+	 *            Message d'entr�e
 	 * @param response
+	 *            Message de sortie
 	 * @return
 	 * @throws Exception
 	 */
@@ -258,14 +264,14 @@ public class HomeController extends MultiActionController {
 			GestionCerisaie unclientRemote = (GestionCerisaie) ctxt
 					.lookup("BeanCommercial");
 			// On rÃ©cupÃ¨re les donnÃ©es du formulaire
-			unClient.setNoClient(request.getParameter("noclient"));
-			unClient.setNomCl(request.getParameter("nomclient"));
-			unClient.setPrenomCl(request.getParameter("prenomclient"));
-			unClient.setSociete(request.getParameter("societe"));
-			unClient.setAdresseCl(request.getParameter("adresse"));
-			unClient.setCodePostCl(request.getParameter("cpostal"));
-			unClient.setVilleCl(request.getParameter("ville"));
-			System.out.println(unClient.getNomCl());
+			unClient.setNumCli(Integer.parseInt(request.getParameter("noClient")));
+			unClient.setNomCli(request.getParameter("nomClient"));
+			unClient.setNumPieceCli(request.getParameter("numPieceClient"));
+			unClient.setPieceCli(request.getParameter("pieceClient"));
+			unClient.setAdrRueCli(request.getParameter("adresse"));
+			unClient.setCpCli(request.getParameter("cPostal"));
+			unClient.setVilleCli(request.getParameter("ville"));
+			System.out.println(unClient.getNomCli());
 			unclientRemote.ajouter(unClient);
 			// request.setAttribute("mesclients",
 			// unclientRemote.listerTousLesClients());
@@ -333,7 +339,7 @@ public class HomeController extends MultiActionController {
 					.lookup("BeanCommercial");
 			// On rÃ©cupÃ¨re les donnÃ©es du formulaire
 			unSejour.setNumSej(request.getParameter("numSejour"));
-			unSejour.setNumCl(request.getParameter("numclient"));
+			unSejour.setNumCli(request.getParameter("numclient"));
 			unSejour.setNumEmpl(request.getParameter("prenomclient"));
 			unSejour.setDateDebSej(request.getParameter("societe"));
 			unSejour.setDateFinSej(request.getParameter("adresse"));
@@ -353,16 +359,15 @@ public class HomeController extends MultiActionController {
 	}
 
 	@RequestMapping(value = "factureSejour.htm")
-	public ModelAndView sauverSejour(HttpServletRequest request,
+	public ModelAndView factureSejour(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		
+
 	}
 
 	@RequestMapping(value = "factureActivites.htm")
-	public ModelAndView sauverSejour(HttpServletRequest request,
+	public ModelAndView factureActivites(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		
-	}
 
+	}
 
 }
