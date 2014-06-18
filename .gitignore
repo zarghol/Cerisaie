@@ -28,3 +28,4 @@ pom.xml
 src/main/resources/log4j.xml
 
 .classpath
+/bin
