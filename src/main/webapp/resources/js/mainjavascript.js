@@ -47,6 +47,33 @@ function ReceptionRecherche(requete)
    }
 }
 
+function DemandeRechercheChamp(recherche)
+{
+	var requeteHttp = getRequeteHttp();
+	if (requeteHttp == null) {
+		alert("Impossible d'utiliser Ajax sur ce navigateur");
+	} else {
+		requeteHttp.open('GET', 'GestRecherche.htm?q=' + recherche, true);
+        requeteHttp.onreadystatechange = function() {
+        	ReceptionRechercheChamp(requeteHttp);
+        };
+        requeteHttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        requeteHttp.send(null);
+	}
+	return;
+}
+
+function ReceptionRechercheChamp(requete)
+{
+   if (requete.readyState == 4) {
+      if (requete.status == 200) {
+    	  document.getElementById("results").innerHTML = requete.responseText;
+      } else {
+         alert("La requête ne s'est pas correctement exécutée");
+      }
+   }
+}
+
 $(function (){ 
 	   $("[data-toggle='popover']").popover();
 });

@@ -22,10 +22,6 @@
 	    	<div id="tabContent" class="tab-content">
 				<div class="tab-pane fade" id="Ajout">
 					<form method="post" action="sauverSejour.htm" onsubmit="return verif();" role="form">
-						<div class="form-group" id="nosejour-group">
-							<label class="control-label" for="nosejour">Numéro Séjour</label>
-							<input type="text" name="nosejour" value="" id="nosejour" class="form-control" />
-						</div>
 						<div class="form-group" id="client-group">
 							<label class="control-label" for="client" id="client-group">Client</label>
 							<select name="client" id="client" class="form-control">
@@ -61,29 +57,33 @@
 				<div class="tab-pane fade active in" id="Affiche">
 					<table class="table">
 						<tr>
-							<th>Numéro Commande</th>
-							<th>Numéro Client</th>
-							<th>Numéro Vendeur</th>
-							<th>Date Commande</th>
+							<th>N° Séjour</th>
+							<th>Client</th>
+							<th>Emplacement</th>
+							<th>Date début</th>
+							<th>Date Fin</th>
+							<th>Nombre personnes</th>
 							<th>Facture</th>
 							<th></th>
 						</tr>
-						<c:forEach items="${mescommandes}" var="item">
+						<c:forEach items="${sejours}" var="item">
 							<tr>
-								<td>${item.noCommand}</td>
+								<td>${item.noSejour}</td>
 								<td>
-									<button class="btn btn-link btn-lg" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" title="Client ${item.clientel.noClient}"
-										data-content="nom : ${item.clientel.nomCl} | société : ${item.clientel.societe}">
-										${item.clientel.noClient}
+									<button class="btn btn-link btn-lg" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" title="Client ${item.client.noClient}"
+										data-content="nom : ${item.client.nomCl}">
+										${item.client.noClient}
 									</button>
 								</td>
 								<td>
-									<button class="btn btn-link btn-lg" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" title="Vendeur ${item.vendeur.noVendeur}"
-										data-content="nom : ${item.vendeur.nomVend} | ville : ${item.vendeur.villeVend}">
-										${item.vendeur.noVendeur}
+									<button class="btn btn-link btn-lg" data-container="body" data-trigger="hover" data-toggle="popover" data-placement="bottom" title="Emplacement ${item.emplacement.noEmpl}"
+										data-content="surface : ${item.empl.surface} | prix : ${item.empl.prix}">
+										${item.empl.noEmplacement}
 									</button>
 								</td>
-								<td><fmt:formatDate type="date" value="${item.dateCde}" pattern="dd/MM/yyyy"/></td>
+								<td><fmt:formatDate type="date" value="${item.dateDebut}" pattern="dd/MM/yyyy"/></td>
+								<td><fmt:formatDate type="date" value="${item.dateFin}" pattern="dd/MM/yyyy"/></td>
+								<td>${item.nbPersonnes}</td>
 								<td>${item.facture}</td>
 								<%-- <td><a href='supprimerCommande.htm?id=${item.noCommand}'><span class="glyphicon glyphicon-remove"></span></a></td> --%>
 								<td><a href='detailCommande.htm?id=${item.noCommand}'>Détail<span class="glyphicon glyphicon-chevron-right"></span></a></td>

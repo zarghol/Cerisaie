@@ -23,10 +23,6 @@ ${alert}
 			<div class="tab-pane fade" id="Ajout">
 				<form method="post" action="sauverClient.htm" onsubmit="return verif();" role="form">
 					<input type="hidden" name="type" id="type" value="ajout" />
-					<div class="form-group" id="noclient-group">
-						<label class="control-label" for="noclient">Numéro Client</label>
-						<input type="text" name="noclient" value="" id="noclient" class="form-control" />
-					</div>
 					<div class="form-group" id="nomclient-group">
 						<label class="control-label" for="nomclient">Nom du Client</label>
 						<input type="text" name="nomclient" value="" id="nomclient" class="form-control" />
@@ -35,10 +31,7 @@ ${alert}
 						<label class="control-label" for="prenomclient">Prénom du Client</label> 
 						<input type="text" name="prenomclient" value="" id="prenomclient" class="form-control" />
 					</div>
-					<div class="form-group" id="societe-group">
-						<label class="control-label" for="societe">Société</label>
-						<input type="text" name="societe" value="" id="societe" class="form-control" />
-					</div>
+	
 					<!-- fieldset adresse -->
 					<fieldset>
 						<legend>Adresse</legend>
@@ -55,6 +48,20 @@ ${alert}
 							<input type="text" name="ville" value="" id="ville" class="form-control" />
 						</div>
 					</fieldset>
+					<fieldset>
+						<legend>Pièce d'identité</legend>
+						<div class="form-group" id="typepiece-group">
+							<label class="control-label" for="typepiece">Type de pièce</label>
+							<select name="typepiece" id="typepiece" class="form-control">
+								<option value="carteid">Carte d'identité</option>
+								<option value="passeport">Passeport</option>
+							</select>
+						</div>
+						<div class="form-group" id="numpiece-group">
+							<label class="control-label" for="numpiece">Numéro de la pièce</label>
+							<input type="text" name="numpiece" value="" id="numpiece" class="form-control" />
+						</div>
+					</fieldset>
 					<button type="submit" class="btn btn-default">Ajouter</button>
 				</form>
 			</div>
@@ -63,25 +70,25 @@ ${alert}
 					<tr>
 						<th>Numéro Client</th>
 						<th>Nom</th>
-						<th>Prénom</th>
-						<th>Société</th>
 						<th>Adresse</th>
 						<th>Code Postal</th>
 						<th>Ville</th>
+						<th>Pièce d'identité</th>
+						<th>Nombre de personne</th>
 						<th colspan="3"></th>
 					</tr>
 					<c:forEach items="${mesClients}" var="item">
 						<tr>
 							<td>${item.noClient}</td>
 							<td>${item.nomCl}</td>
-							<td>${item.prenomCl}</td>
-							<td>${item.societe}</td>
 							<td>${item.adresseCl}</td>
 							<td>${item.codePostCl}</td>
 							<td>${item.villeCl}</td>
+							<td>${item.pieceIdentite}</td>
+							<td>${item.nombrePersonnes}</td>
 							<td><a href='modifierClient.htm?id=${item.noClient}'><span class="glyphicon glyphicon-edit"></span></a></td>
 							<td><a href='supprimerClient.htm?id=${item.noClient}'><span class="glyphicon glyphicon-remove"></span></a></td>
-							<td><a href='afficherCommandesClient.htm?noClient=${item.noClient}'><span class="glyphicon glyphicon-th-list">Commandes</span></a></td>
+							<td><a href='afficherSejourClient.htm?noClient=${item.noClient}'><span class="glyphicon glyphicon-th-list">Séjour</span></a></td>
 						</tr>
 					</c:forEach>
 				</table>
@@ -91,14 +98,13 @@ ${alert}
 </div>
 <script type="text/javascript">
 	function verif() {
-		var test1 = verifUnitaire("noclient");
 		var test2 = verifUnitaire("nomclient");
-		var test3 = verifUnitaire("prenomclient");
 		var test4 = verifUnitaire("adresse");
 		var test5 = verifUnitaire("cpostal");
 		var test6 = verifUnitaire("ville");
-		var test7 = verifUnitaire("societe");
-		return (test1 && test2 && test3 && test4 && test5 && test6 && test7);
+		var test7 = verifUnitaire("typepiece");
+		var test8 = verifUnitaire("numpiece");
+		return (test1 && test2 && test3 && test4 && test5 && test6 && test7 && test8);
 	}
 </script>
 <%@ include file="PiedPage.jsp" %>
